@@ -51,3 +51,17 @@ FROM accounts a
 RIGHT JOIN users u
   ON u.user_id = a.user_id
 ORDER BY u.user_id;
+
+
+-----------Working with multi joins
+-- All accounts with their type and addresses (keeping accounts without addresses)
+SELECT a.acc_id,
+       at.type_name,
+       ad.add_street,
+       ad.add_city
+FROM accounts a
+INNER JOIN account_type at
+  ON a.type_id = at.type_id
+LEFT JOIN addresses ad
+  ON a.acc_id = ad.acc_id
+ORDER BY a.acc_id;
