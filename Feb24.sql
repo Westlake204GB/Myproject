@@ -19,12 +19,22 @@ LEFT JOIN sessions s
 ORDER BY u.user_id, s.ses_createdat DESC;
 
 
--- All FidZulu users with their sessions (including users without sessions) - only user_id, username, session token and session created date
+-- All FidZulu users with their sessions (including users without sessions) - only user_id, username, session token and session created date - using NVL to replace NULL session tokens with 'N/A'
 
 SELECT u.user_id,
        u.user_username,
        NVL(s.ses_token, 'N/A') AS session_token,
          s.ses_createdat
+FROM users u
+LEFT JOIN sessions s
+  ON u.user_id = s.user_id
+ORDER BY u.user_id, s.ses_createdat DESC;
+
+-- All FidZulu users with their sessions (including users without sessions) - only user_id, username, session token and session created date - using COALESCE instead of NVL
+
+SELECT u.user_id,
+       u.user_username,
+       COALESCE(s.ses_token, 'N/A') AS session_token, s.ses_createdat
 FROM users u
 LEFT JOIN sessions s
   ON u.user_id = s.user_id
