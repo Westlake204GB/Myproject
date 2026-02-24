@@ -39,3 +39,15 @@ FROM users u
 LEFT JOIN sessions s
   ON u.user_id = s.user_id
 ORDER BY u.user_id, s.ses_createdat DESC;
+
+
+---------------Working with the forbidden right join
+-- All users with their accounts (including users without accounts)
+SELECT u.user_id,
+       u.user_username,
+       a.acc_id,
+       a.acc_startdate
+FROM accounts a
+RIGHT JOIN users u
+  ON u.user_id = a.user_id
+ORDER BY u.user_id;
