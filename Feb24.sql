@@ -17,3 +17,15 @@ FROM users u
 LEFT JOIN sessions s
   ON u.user_id = s.user_id
 ORDER BY u.user_id, s.ses_createdat DESC;
+
+
+-- All FidZulu users with their sessions (including users without sessions) - only user_id, username, session token and session created date
+
+SELECT u.user_id,
+       u.user_username,
+       NVL(s.ses_token, 'N/A') AS session_token,
+         s.ses_createdat
+FROM users u
+LEFT JOIN sessions s
+  ON u.user_id = s.user_id
+ORDER BY u.user_id, s.ses_createdat DESC;
