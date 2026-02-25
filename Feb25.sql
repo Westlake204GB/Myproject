@@ -29,3 +29,19 @@ WHERE u.user_id IN (SELECT s.user_id
                      FROM sessions s
                      WHERE s.ses_expiresat > (SYSDATE - TO_DATE('1970-01-01', 'YYYY-MM-DD')) * 24 * 60 * 60 * 1000)
 ORDER BY u.user_username;
+
+
+-- All products that belong to categories which have a parent category, ordered by product name
+SELECT p.prod_id,
+       p.prod_name,
+       p.cat_id
+FROM products p
+WHERE p.cat_id IN (
+  SELECT c.cat_id 
+  FROM categories c 
+  WHERE c.cat_parentid IN (
+    SELECT cat.cat_id 
+    FROM categories cat
+  )
+)
+ORDER BY p.prod_id;
